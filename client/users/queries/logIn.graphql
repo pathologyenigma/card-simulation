@@ -1,0 +1,16 @@
+query LogIn($account: String) {
+    users(where: {OR: [{username: $account},{email: $account}]}) {
+        friendCounts
+        friendRequestList {
+            username
+        }
+        friends {
+            friendCounts
+            email
+            username
+        }
+        email
+        password
+        username
+    }
+}

@@ -1,0 +1,2145 @@
+type Query {
+  users(where: UserWhere, options: UserOptions): [User!]!
+  usersCount(where: UserWhere): Int!
+  usersAggregate(where: UserWhere): UserAggregateSelection!
+  updatedRecords(where: UpdatedRecordWhere, options: UpdatedRecordOptions): [UpdatedRecord!]!
+  updatedRecordsCount(where: UpdatedRecordWhere): Int!
+  updatedRecordsAggregate(where: UpdatedRecordWhere): UpdatedRecordAggregateSelection!
+  cards(where: CardWhere, options: CardOptions): [Card!]!
+  cardsCount(where: CardWhere): Int!
+  cardsAggregate(where: CardWhere): CardAggregateSelection!
+  raritySettings(where: RaritySettingWhere, options: RaritySettingOptions): [RaritySetting!]!
+  raritySettingsCount(where: RaritySettingWhere): Int!
+  raritySettingsAggregate(where: RaritySettingWhere): RaritySettingAggregateSelection!
+  rarities(where: RarityWhere, options: RarityOptions): [Rarity!]!
+  raritiesCount(where: RarityWhere): Int!
+  raritiesAggregate(where: RarityWhere): RarityAggregateSelection!
+  cardPoolSettings(where: CardPoolSettingWhere, options: CardPoolSettingOptions): [CardPoolSetting!]!
+  cardPoolSettingsCount(where: CardPoolSettingWhere): Int!
+  cardPoolSettingsAggregate(where: CardPoolSettingWhere): CardPoolSettingAggregateSelection!
+  cardPools(where: CardPoolWhere, options: CardPoolOptions): [CardPool!]!
+  cardPoolsCount(where: CardPoolWhere): Int!
+  cardPoolsAggregate(where: CardPoolWhere): CardPoolAggregateSelection!
+}
+
+type Mutation {
+  createUsers(input: [UserCreateInput!]!): CreateUsersMutationResponse!
+  deleteUsers(where: UserWhere, delete: UserDeleteInput): DeleteInfo!
+  updateUsers(where: UserWhere, update: UserUpdateInput, connect: UserConnectInput, disconnect: UserDisconnectInput, create: UserRelationInput, delete: UserDeleteInput, connectOrCreate: UserConnectOrCreateInput): UpdateUsersMutationResponse!
+  createUpdatedRecords(input: [UpdatedRecordCreateInput!]!): CreateUpdatedRecordsMutationResponse!
+  deleteUpdatedRecords(where: UpdatedRecordWhere): DeleteInfo!
+  updateUpdatedRecords(where: UpdatedRecordWhere, update: UpdatedRecordUpdateInput): UpdateUpdatedRecordsMutationResponse!
+  createCards(input: [CardCreateInput!]!): CreateCardsMutationResponse!
+  deleteCards(where: CardWhere, delete: CardDeleteInput): DeleteInfo!
+  updateCards(where: CardWhere, update: CardUpdateInput, connect: CardConnectInput, disconnect: CardDisconnectInput, create: CardRelationInput, delete: CardDeleteInput, connectOrCreate: CardConnectOrCreateInput): UpdateCardsMutationResponse!
+  createRaritySettings(input: [RaritySettingCreateInput!]!): CreateRaritySettingsMutationResponse!
+  deleteRaritySettings(where: RaritySettingWhere, delete: RaritySettingDeleteInput): DeleteInfo!
+  updateRaritySettings(where: RaritySettingWhere, update: RaritySettingUpdateInput, connect: RaritySettingConnectInput, disconnect: RaritySettingDisconnectInput, create: RaritySettingRelationInput, delete: RaritySettingDeleteInput, connectOrCreate: RaritySettingConnectOrCreateInput): UpdateRaritySettingsMutationResponse!
+  createRarities(input: [RarityCreateInput!]!): CreateRaritiesMutationResponse!
+  deleteRarities(where: RarityWhere): DeleteInfo!
+  updateRarities(where: RarityWhere, update: RarityUpdateInput): UpdateRaritiesMutationResponse!
+  createCardPoolSettings(input: [CardPoolSettingCreateInput!]!): CreateCardPoolSettingsMutationResponse!
+  deleteCardPoolSettings(where: CardPoolSettingWhere, delete: CardPoolSettingDeleteInput): DeleteInfo!
+  updateCardPoolSettings(where: CardPoolSettingWhere, update: CardPoolSettingUpdateInput, connect: CardPoolSettingConnectInput, disconnect: CardPoolSettingDisconnectInput, create: CardPoolSettingRelationInput, delete: CardPoolSettingDeleteInput, connectOrCreate: CardPoolSettingConnectOrCreateInput): UpdateCardPoolSettingsMutationResponse!
+  createCardPools(input: [CardPoolCreateInput!]!): CreateCardPoolsMutationResponse!
+  deleteCardPools(where: CardPoolWhere, delete: CardPoolDeleteInput): DeleteInfo!
+  updateCardPools(where: CardPoolWhere, update: CardPoolUpdateInput, connect: CardPoolConnectInput, disconnect: CardPoolDisconnectInput, create: CardPoolRelationInput, delete: CardPoolDeleteInput): UpdateCardPoolsMutationResponse!
+}
+
+"""A date and time, represented as an ISO-8601 string"""
+scalar DateTime
+
+enum CardPoolAlgorithm {
+  """
+  some other algorithms you like
+  promise me, you only add algorithms you know how to implement here
+  """
+  Shuffle
+  RealTime
+}
+
+enum SortDirection {
+  """Sort by field values in ascending order."""
+  ASC
+
+  """Sort by field values in descending order."""
+  DESC
+}
+
+type Card {
+  name: String
+  description: String
+  createdBy(where: UserWhere, options: UserOptions): User
+  createdByAggregate(where: UserWhere): CardUserCreatedByAggregationSelection
+  createdByConnection(where: CardCreatedByConnectionWhere, sort: [CardCreatedByConnectionSort!], first: Int, after: String): CardCreatedByConnection!
+}
+
+type CardAggregateSelection {
+  count: Int!
+  name: StringAggregateSelection!
+  description: StringAggregateSelection!
+}
+
+type CardCreatedByConnection {
+  edges: [CardCreatedByRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type CardCreatedByRelationship {
+  cursor: String!
+  node: User!
+}
+
+type CardPool {
+  currentCounts: Int
+  cache: String
+  cardSettingInUsing(where: CardPoolSettingWhere, options: CardPoolSettingOptions): CardPoolSetting
+  cardSettingInUsingAggregate(where: CardPoolSettingWhere): CardPoolCardPoolSettingCardSettingInUsingAggregationSelection
+  raritySettingInUsing(where: RaritySettingWhere, options: RaritySettingOptions): RaritySetting
+  raritySettingInUsingAggregate(where: RaritySettingWhere): CardPoolRaritySettingRaritySettingInUsingAggregationSelection
+  cardSettingInUsingConnection(where: CardPoolCardSettingInUsingConnectionWhere, sort: [CardPoolCardSettingInUsingConnectionSort!], first: Int, after: String): CardPoolCardSettingInUsingConnection!
+  raritySettingInUsingConnection(where: CardPoolRaritySettingInUsingConnectionWhere, sort: [CardPoolRaritySettingInUsingConnectionSort!], first: Int, after: String): CardPoolRaritySettingInUsingConnection!
+}
+
+type CardPoolAggregateSelection {
+  count: Int!
+  currentCounts: IntAggregateSelection!
+  cache: StringAggregateSelection!
+}
+
+type CardPoolCardPoolSettingCardSettingInUsingAggregationSelection {
+  count: Int!
+  node: CardPoolCardPoolSettingCardSettingInUsingNodeAggregateSelection
+}
+
+type CardPoolCardPoolSettingCardSettingInUsingNodeAggregateSelection {
+  title: StringAggregateSelection!
+  maxTimes: IntAggregateSelection!
+}
+
+type CardPoolCardSettingInUsingConnection {
+  edges: [CardPoolCardSettingInUsingRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type CardPoolCardSettingInUsingRelationship {
+  cursor: String!
+  node: CardPoolSetting!
+}
+
+type CardPoolRaritySettingInUsingConnection {
+  edges: [CardPoolRaritySettingInUsingRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type CardPoolRaritySettingInUsingRelationship {
+  cursor: String!
+  node: RaritySetting!
+}
+
+type CardPoolRaritySettingRaritySettingInUsingAggregationSelection {
+  count: Int!
+  node: CardPoolRaritySettingRaritySettingInUsingNodeAggregateSelection
+}
+
+type CardPoolRaritySettingRaritySettingInUsingNodeAggregateSelection {
+  title: StringAggregateSelection!
+}
+
+type CardPoolSetting {
+  title: String
+  maxTimes: Int
+  algorithm: CardPoolAlgorithm!
+  createdBy(where: UserWhere, options: UserOptions): User
+  createdByAggregate(where: UserWhere): CardPoolSettingUserCreatedByAggregationSelection
+  createdByConnection(where: CardPoolSettingCreatedByConnectionWhere, sort: [CardPoolSettingCreatedByConnectionSort!], first: Int, after: String): CardPoolSettingCreatedByConnection!
+}
+
+type CardPoolSettingAggregateSelection {
+  count: Int!
+  title: StringAggregateSelection!
+  maxTimes: IntAggregateSelection!
+}
+
+type CardPoolSettingCreatedByConnection {
+  edges: [CardPoolSettingCreatedByRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type CardPoolSettingCreatedByRelationship {
+  cursor: String!
+  node: User!
+}
+
+type CardPoolSettingUserCreatedByAggregationSelection {
+  count: Int!
+  node: CardPoolSettingUserCreatedByNodeAggregateSelection
+}
+
+type CardPoolSettingUserCreatedByNodeAggregateSelection {
+  username: StringAggregateSelection!
+  password: StringAggregateSelection!
+  email: StringAggregateSelection!
+}
+
+type CardUserCreatedByAggregationSelection {
+  count: Int!
+  node: CardUserCreatedByNodeAggregateSelection
+}
+
+type CardUserCreatedByNodeAggregateSelection {
+  username: StringAggregateSelection!
+  password: StringAggregateSelection!
+  email: StringAggregateSelection!
+}
+
+type CreateCardPoolSettingsMutationResponse {
+  info: CreateInfo!
+  cardPoolSettings: [CardPoolSetting!]!
+}
+
+type CreateCardPoolsMutationResponse {
+  info: CreateInfo!
+  cardPools: [CardPool!]!
+}
+
+type CreateCardsMutationResponse {
+  info: CreateInfo!
+  cards: [Card!]!
+}
+
+type CreateInfo {
+  bookmark: String
+  nodesCreated: Int!
+  relationshipsCreated: Int!
+}
+
+type CreateRaritiesMutationResponse {
+  info: CreateInfo!
+  rarities: [Rarity!]!
+}
+
+type CreateRaritySettingsMutationResponse {
+  info: CreateInfo!
+  raritySettings: [RaritySetting!]!
+}
+
+type CreateUpdatedRecordsMutationResponse {
+  info: CreateInfo!
+  updatedRecords: [UpdatedRecord!]!
+}
+
+type CreateUsersMutationResponse {
+  info: CreateInfo!
+  users: [User!]!
+}
+
+type DateTimeAggregateSelection {
+  min: DateTime
+  max: DateTime
+}
+
+type DeleteInfo {
+  bookmark: String
+  nodesDeleted: Int!
+  relationshipsDeleted: Int!
+}
+
+type FloatAggregateSelection {
+  max: Float
+  min: Float
+  average: Float
+  sum: Float
+}
+
+type IntAggregateSelection {
+  max: Int
+  min: Int
+  average: Float
+  sum: Int
+}
+
+"""Pagination information (Relay)"""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Rarity {
+  name: String
+  probability: Float
+  sort: Int
+}
+
+type RarityAggregateSelection {
+  count: Int!
+  name: StringAggregateSelection!
+  probability: FloatAggregateSelection!
+  sort: IntAggregateSelection!
+}
+
+type RaritySetting {
+  title: String
+  depth: Int
+  createdBy(where: UserWhere, options: UserOptions): User
+  createdByAggregate(where: UserWhere): RaritySettingUserCreatedByAggregationSelection
+  containRarities(where: RarityWhere, options: RarityOptions): [Rarity]
+  containRaritiesAggregate(where: RarityWhere): RaritySettingRarityContainRaritiesAggregationSelection
+  createdByConnection(where: RaritySettingCreatedByConnectionWhere, sort: [RaritySettingCreatedByConnectionSort!], first: Int, after: String): RaritySettingCreatedByConnection!
+  containRaritiesConnection(where: RaritySettingContainRaritiesConnectionWhere, sort: [RaritySettingContainRaritiesConnectionSort!], first: Int, after: String): RaritySettingContainRaritiesConnection!
+}
+
+type RaritySettingAggregateSelection {
+  count: Int!
+  title: StringAggregateSelection!
+}
+
+type RaritySettingContainRaritiesConnection {
+  edges: [RaritySettingContainRaritiesRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type RaritySettingContainRaritiesRelationship {
+  cursor: String!
+  node: Rarity!
+}
+
+type RaritySettingCreatedByConnection {
+  edges: [RaritySettingCreatedByRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type RaritySettingCreatedByRelationship {
+  cursor: String!
+  node: User!
+}
+
+type RaritySettingRarityContainRaritiesAggregationSelection {
+  count: Int!
+  node: RaritySettingRarityContainRaritiesNodeAggregateSelection
+}
+
+type RaritySettingRarityContainRaritiesNodeAggregateSelection {
+  name: StringAggregateSelection!
+  probability: FloatAggregateSelection!
+  sort: IntAggregateSelection!
+}
+
+type RaritySettingUserCreatedByAggregationSelection {
+  count: Int!
+  node: RaritySettingUserCreatedByNodeAggregateSelection
+}
+
+type RaritySettingUserCreatedByNodeAggregateSelection {
+  username: StringAggregateSelection!
+  password: StringAggregateSelection!
+  email: StringAggregateSelection!
+}
+
+type StringAggregateSelection {
+  shortest: String
+  longest: String
+}
+
+type UpdateCardPoolSettingsMutationResponse {
+  info: UpdateInfo!
+  cardPoolSettings: [CardPoolSetting!]!
+}
+
+type UpdateCardPoolsMutationResponse {
+  info: UpdateInfo!
+  cardPools: [CardPool!]!
+}
+
+type UpdateCardsMutationResponse {
+  info: UpdateInfo!
+  cards: [Card!]!
+}
+
+"""
+once one node
+if you update multiple nodes at same time
+you will get multiple UpdatedRecords
+"""
+type UpdatedRecord {
+  """
+  will be a json object
+  for example, if you changed one User
+  set email from "" to "user@example.com"
+  then you will get 
+  {
+    "User": {
+      "email":["", "user@example.com"]
+    }
+  } from this field
+  """
+  detail: String
+  time: DateTime
+}
+
+type UpdatedRecordAggregateSelection {
+  count: Int!
+  detail: StringAggregateSelection!
+  time: DateTimeAggregateSelection!
+}
+
+type UpdateInfo {
+  bookmark: String
+  nodesCreated: Int!
+  nodesDeleted: Int!
+  relationshipsCreated: Int!
+  relationshipsDeleted: Int!
+}
+
+type UpdateRaritiesMutationResponse {
+  info: UpdateInfo!
+  rarities: [Rarity!]!
+}
+
+type UpdateRaritySettingsMutationResponse {
+  info: UpdateInfo!
+  raritySettings: [RaritySetting!]!
+}
+
+type UpdateUpdatedRecordsMutationResponse {
+  info: UpdateInfo!
+  updatedRecords: [UpdatedRecord!]!
+}
+
+type UpdateUsersMutationResponse {
+  info: UpdateInfo!
+  users: [User!]!
+}
+
+type User {
+  username: String
+  password: String
+  email: String
+  friendRequestList: [User]
+  friends: [User]
+  friendCounts: Int
+  updatedRecords(where: UpdatedRecordWhere, options: UpdatedRecordOptions): [UpdatedRecord]
+  updatedRecordsAggregate(where: UpdatedRecordWhere): UserUpdatedRecordUpdatedRecordsAggregationSelection
+  knownUsers(where: UserWhere, options: UserOptions): [User]
+  knownUsersAggregate(where: UserWhere): UserUserKnownUsersAggregationSelection
+  updateHistorys(where: UpdatedRecordWhere, options: UpdatedRecordOptions): [UpdatedRecord]
+  updateHistorysAggregate(where: UpdatedRecordWhere): UserUpdatedRecordUpdateHistorysAggregationSelection
+  updatedRecordsConnection(where: UserUpdatedRecordsConnectionWhere, sort: [UserUpdatedRecordsConnectionSort!], first: Int, after: String): UserUpdatedRecordsConnection!
+  knownUsersConnection(where: UserKnownUsersConnectionWhere, sort: [UserKnownUsersConnectionSort!], first: Int, after: String): UserKnownUsersConnection!
+  updateHistorysConnection(where: UserUpdateHistorysConnectionWhere, sort: [UserUpdateHistorysConnectionSort!], first: Int, after: String): UserUpdateHistorysConnection!
+}
+
+type UserAggregateSelection {
+  count: Int!
+  username: StringAggregateSelection!
+  password: StringAggregateSelection!
+  email: StringAggregateSelection!
+}
+
+type UserKnownUsersConnection {
+  edges: [UserKnownUsersRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type UserKnownUsersRelationship {
+  cursor: String!
+  node: User!
+}
+
+type UserUpdatedRecordsConnection {
+  edges: [UserUpdatedRecordsRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type UserUpdatedRecordsRelationship {
+  cursor: String!
+  node: UpdatedRecord!
+}
+
+type UserUpdatedRecordUpdatedRecordsAggregationSelection {
+  count: Int!
+  node: UserUpdatedRecordUpdatedRecordsNodeAggregateSelection
+}
+
+type UserUpdatedRecordUpdatedRecordsNodeAggregateSelection {
+  detail: StringAggregateSelection!
+  time: DateTimeAggregateSelection!
+}
+
+type UserUpdatedRecordUpdateHistorysAggregationSelection {
+  count: Int!
+  node: UserUpdatedRecordUpdateHistorysNodeAggregateSelection
+}
+
+type UserUpdatedRecordUpdateHistorysNodeAggregateSelection {
+  detail: StringAggregateSelection!
+  time: DateTimeAggregateSelection!
+}
+
+type UserUpdateHistorysConnection {
+  edges: [UserUpdateHistorysRelationship!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+type UserUpdateHistorysRelationship {
+  cursor: String!
+  node: UpdatedRecord!
+}
+
+type UserUserKnownUsersAggregationSelection {
+  count: Int!
+  node: UserUserKnownUsersNodeAggregateSelection
+}
+
+type UserUserKnownUsersNodeAggregateSelection {
+  username: StringAggregateSelection!
+  password: StringAggregateSelection!
+  email: StringAggregateSelection!
+}
+
+input CardConnectInput {
+  createdBy: CardCreatedByConnectFieldInput
+}
+
+input CardConnectOrCreateInput {
+  createdBy: CardCreatedByConnectOrCreateFieldInput
+}
+
+input CardCreatedByAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [CardCreatedByAggregateInput!]
+  OR: [CardCreatedByAggregateInput!]
+  node: CardCreatedByNodeAggregationWhereInput
+}
+
+input CardCreatedByConnectFieldInput {
+  where: UserConnectWhere
+  connect: UserConnectInput
+}
+
+input CardCreatedByConnectionSort {
+  node: UserSort
+}
+
+input CardCreatedByConnectionWhere {
+  AND: [CardCreatedByConnectionWhere!]
+  OR: [CardCreatedByConnectionWhere!]
+  node: UserWhere
+  node_NOT: UserWhere
+}
+
+input CardCreatedByConnectOrCreateFieldInput {
+  where: UserConnectOrCreateWhere!
+  onCreate: CardCreatedByConnectOrCreateFieldInputOnCreate!
+}
+
+input CardCreatedByConnectOrCreateFieldInputOnCreate {
+  node: UserCreateInput!
+}
+
+input CardCreatedByCreateFieldInput {
+  node: UserCreateInput!
+}
+
+input CardCreatedByDeleteFieldInput {
+  where: CardCreatedByConnectionWhere
+  delete: UserDeleteInput
+}
+
+input CardCreatedByDisconnectFieldInput {
+  where: CardCreatedByConnectionWhere
+  disconnect: UserDisconnectInput
+}
+
+input CardCreatedByFieldInput {
+  create: CardCreatedByCreateFieldInput
+  connect: CardCreatedByConnectFieldInput
+  connectOrCreate: CardCreatedByConnectOrCreateFieldInput
+}
+
+input CardCreatedByNodeAggregationWhereInput {
+  AND: [CardCreatedByNodeAggregationWhereInput!]
+  OR: [CardCreatedByNodeAggregationWhereInput!]
+  username_EQUAL: String
+  username_AVERAGE_EQUAL: Float
+  username_LONGEST_EQUAL: Int
+  username_SHORTEST_EQUAL: Int
+  username_GT: Int
+  username_AVERAGE_GT: Float
+  username_LONGEST_GT: Int
+  username_SHORTEST_GT: Int
+  username_GTE: Int
+  username_AVERAGE_GTE: Float
+  username_LONGEST_GTE: Int
+  username_SHORTEST_GTE: Int
+  username_LT: Int
+  username_AVERAGE_LT: Float
+  username_LONGEST_LT: Int
+  username_SHORTEST_LT: Int
+  username_LTE: Int
+  username_AVERAGE_LTE: Float
+  username_LONGEST_LTE: Int
+  username_SHORTEST_LTE: Int
+  password_EQUAL: String
+  password_AVERAGE_EQUAL: Float
+  password_LONGEST_EQUAL: Int
+  password_SHORTEST_EQUAL: Int
+  password_GT: Int
+  password_AVERAGE_GT: Float
+  password_LONGEST_GT: Int
+  password_SHORTEST_GT: Int
+  password_GTE: Int
+  password_AVERAGE_GTE: Float
+  password_LONGEST_GTE: Int
+  password_SHORTEST_GTE: Int
+  password_LT: Int
+  password_AVERAGE_LT: Float
+  password_LONGEST_LT: Int
+  password_SHORTEST_LT: Int
+  password_LTE: Int
+  password_AVERAGE_LTE: Float
+  password_LONGEST_LTE: Int
+  password_SHORTEST_LTE: Int
+  email_EQUAL: String
+  email_AVERAGE_EQUAL: Float
+  email_LONGEST_EQUAL: Int
+  email_SHORTEST_EQUAL: Int
+  email_GT: Int
+  email_AVERAGE_GT: Float
+  email_LONGEST_GT: Int
+  email_SHORTEST_GT: Int
+  email_GTE: Int
+  email_AVERAGE_GTE: Float
+  email_LONGEST_GTE: Int
+  email_SHORTEST_GTE: Int
+  email_LT: Int
+  email_AVERAGE_LT: Float
+  email_LONGEST_LT: Int
+  email_SHORTEST_LT: Int
+  email_LTE: Int
+  email_AVERAGE_LTE: Float
+  email_LONGEST_LTE: Int
+  email_SHORTEST_LTE: Int
+}
+
+input CardCreatedByUpdateConnectionInput {
+  node: UserUpdateInput
+}
+
+input CardCreatedByUpdateFieldInput {
+  where: CardCreatedByConnectionWhere
+  update: CardCreatedByUpdateConnectionInput
+  connect: CardCreatedByConnectFieldInput
+  disconnect: CardCreatedByDisconnectFieldInput
+  create: CardCreatedByCreateFieldInput
+  delete: CardCreatedByDeleteFieldInput
+  connectOrCreate: CardCreatedByConnectOrCreateFieldInput
+}
+
+input CardCreateInput {
+  name: String
+  description: String
+  createdBy: CardCreatedByFieldInput
+}
+
+input CardDeleteInput {
+  createdBy: CardCreatedByDeleteFieldInput
+}
+
+input CardDisconnectInput {
+  createdBy: CardCreatedByDisconnectFieldInput
+}
+
+input CardOptions {
+  """
+  Specify one or more CardSort objects to sort Cards by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [CardSort]
+  limit: Int
+  offset: Int
+}
+
+input CardPoolCardSettingInUsingAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [CardPoolCardSettingInUsingAggregateInput!]
+  OR: [CardPoolCardSettingInUsingAggregateInput!]
+  node: CardPoolCardSettingInUsingNodeAggregationWhereInput
+}
+
+input CardPoolCardSettingInUsingConnectFieldInput {
+  where: CardPoolSettingConnectWhere
+  connect: CardPoolSettingConnectInput
+}
+
+input CardPoolCardSettingInUsingConnectionSort {
+  node: CardPoolSettingSort
+}
+
+input CardPoolCardSettingInUsingConnectionWhere {
+  AND: [CardPoolCardSettingInUsingConnectionWhere!]
+  OR: [CardPoolCardSettingInUsingConnectionWhere!]
+  node: CardPoolSettingWhere
+  node_NOT: CardPoolSettingWhere
+}
+
+input CardPoolCardSettingInUsingCreateFieldInput {
+  node: CardPoolSettingCreateInput!
+}
+
+input CardPoolCardSettingInUsingDeleteFieldInput {
+  where: CardPoolCardSettingInUsingConnectionWhere
+  delete: CardPoolSettingDeleteInput
+}
+
+input CardPoolCardSettingInUsingDisconnectFieldInput {
+  where: CardPoolCardSettingInUsingConnectionWhere
+  disconnect: CardPoolSettingDisconnectInput
+}
+
+input CardPoolCardSettingInUsingFieldInput {
+  create: CardPoolCardSettingInUsingCreateFieldInput
+  connect: CardPoolCardSettingInUsingConnectFieldInput
+}
+
+input CardPoolCardSettingInUsingNodeAggregationWhereInput {
+  AND: [CardPoolCardSettingInUsingNodeAggregationWhereInput!]
+  OR: [CardPoolCardSettingInUsingNodeAggregationWhereInput!]
+  title_EQUAL: String
+  title_AVERAGE_EQUAL: Float
+  title_LONGEST_EQUAL: Int
+  title_SHORTEST_EQUAL: Int
+  title_GT: Int
+  title_AVERAGE_GT: Float
+  title_LONGEST_GT: Int
+  title_SHORTEST_GT: Int
+  title_GTE: Int
+  title_AVERAGE_GTE: Float
+  title_LONGEST_GTE: Int
+  title_SHORTEST_GTE: Int
+  title_LT: Int
+  title_AVERAGE_LT: Float
+  title_LONGEST_LT: Int
+  title_SHORTEST_LT: Int
+  title_LTE: Int
+  title_AVERAGE_LTE: Float
+  title_LONGEST_LTE: Int
+  title_SHORTEST_LTE: Int
+  maxTimes_EQUAL: Int
+  maxTimes_AVERAGE_EQUAL: Float
+  maxTimes_MIN_EQUAL: Int
+  maxTimes_MAX_EQUAL: Int
+  maxTimes_SUM_EQUAL: Int
+  maxTimes_GT: Int
+  maxTimes_AVERAGE_GT: Float
+  maxTimes_MIN_GT: Int
+  maxTimes_MAX_GT: Int
+  maxTimes_SUM_GT: Int
+  maxTimes_GTE: Int
+  maxTimes_AVERAGE_GTE: Float
+  maxTimes_MIN_GTE: Int
+  maxTimes_MAX_GTE: Int
+  maxTimes_SUM_GTE: Int
+  maxTimes_LT: Int
+  maxTimes_AVERAGE_LT: Float
+  maxTimes_MIN_LT: Int
+  maxTimes_MAX_LT: Int
+  maxTimes_SUM_LT: Int
+  maxTimes_LTE: Int
+  maxTimes_AVERAGE_LTE: Float
+  maxTimes_MIN_LTE: Int
+  maxTimes_MAX_LTE: Int
+  maxTimes_SUM_LTE: Int
+}
+
+input CardPoolCardSettingInUsingUpdateConnectionInput {
+  node: CardPoolSettingUpdateInput
+}
+
+input CardPoolCardSettingInUsingUpdateFieldInput {
+  where: CardPoolCardSettingInUsingConnectionWhere
+  update: CardPoolCardSettingInUsingUpdateConnectionInput
+  connect: CardPoolCardSettingInUsingConnectFieldInput
+  disconnect: CardPoolCardSettingInUsingDisconnectFieldInput
+  create: CardPoolCardSettingInUsingCreateFieldInput
+  delete: CardPoolCardSettingInUsingDeleteFieldInput
+}
+
+input CardPoolConnectInput {
+  cardSettingInUsing: CardPoolCardSettingInUsingConnectFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingConnectFieldInput
+}
+
+input CardPoolCreateInput {
+  currentCounts: Int
+  cache: String
+  cardSettingInUsing: CardPoolCardSettingInUsingFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingFieldInput
+}
+
+input CardPoolDeleteInput {
+  cardSettingInUsing: CardPoolCardSettingInUsingDeleteFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingDeleteFieldInput
+}
+
+input CardPoolDisconnectInput {
+  cardSettingInUsing: CardPoolCardSettingInUsingDisconnectFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingDisconnectFieldInput
+}
+
+input CardPoolOptions {
+  """
+  Specify one or more CardPoolSort objects to sort CardPools by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [CardPoolSort]
+  limit: Int
+  offset: Int
+}
+
+input CardPoolRaritySettingInUsingAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [CardPoolRaritySettingInUsingAggregateInput!]
+  OR: [CardPoolRaritySettingInUsingAggregateInput!]
+  node: CardPoolRaritySettingInUsingNodeAggregationWhereInput
+}
+
+input CardPoolRaritySettingInUsingConnectFieldInput {
+  where: RaritySettingConnectWhere
+  connect: RaritySettingConnectInput
+}
+
+input CardPoolRaritySettingInUsingConnectionSort {
+  node: RaritySettingSort
+}
+
+input CardPoolRaritySettingInUsingConnectionWhere {
+  AND: [CardPoolRaritySettingInUsingConnectionWhere!]
+  OR: [CardPoolRaritySettingInUsingConnectionWhere!]
+  node: RaritySettingWhere
+  node_NOT: RaritySettingWhere
+}
+
+input CardPoolRaritySettingInUsingCreateFieldInput {
+  node: RaritySettingCreateInput!
+}
+
+input CardPoolRaritySettingInUsingDeleteFieldInput {
+  where: CardPoolRaritySettingInUsingConnectionWhere
+  delete: RaritySettingDeleteInput
+}
+
+input CardPoolRaritySettingInUsingDisconnectFieldInput {
+  where: CardPoolRaritySettingInUsingConnectionWhere
+  disconnect: RaritySettingDisconnectInput
+}
+
+input CardPoolRaritySettingInUsingFieldInput {
+  create: CardPoolRaritySettingInUsingCreateFieldInput
+  connect: CardPoolRaritySettingInUsingConnectFieldInput
+}
+
+input CardPoolRaritySettingInUsingNodeAggregationWhereInput {
+  AND: [CardPoolRaritySettingInUsingNodeAggregationWhereInput!]
+  OR: [CardPoolRaritySettingInUsingNodeAggregationWhereInput!]
+  title_EQUAL: String
+  title_AVERAGE_EQUAL: Float
+  title_LONGEST_EQUAL: Int
+  title_SHORTEST_EQUAL: Int
+  title_GT: Int
+  title_AVERAGE_GT: Float
+  title_LONGEST_GT: Int
+  title_SHORTEST_GT: Int
+  title_GTE: Int
+  title_AVERAGE_GTE: Float
+  title_LONGEST_GTE: Int
+  title_SHORTEST_GTE: Int
+  title_LT: Int
+  title_AVERAGE_LT: Float
+  title_LONGEST_LT: Int
+  title_SHORTEST_LT: Int
+  title_LTE: Int
+  title_AVERAGE_LTE: Float
+  title_LONGEST_LTE: Int
+  title_SHORTEST_LTE: Int
+}
+
+input CardPoolRaritySettingInUsingUpdateConnectionInput {
+  node: RaritySettingUpdateInput
+}
+
+input CardPoolRaritySettingInUsingUpdateFieldInput {
+  where: CardPoolRaritySettingInUsingConnectionWhere
+  update: CardPoolRaritySettingInUsingUpdateConnectionInput
+  connect: CardPoolRaritySettingInUsingConnectFieldInput
+  disconnect: CardPoolRaritySettingInUsingDisconnectFieldInput
+  create: CardPoolRaritySettingInUsingCreateFieldInput
+  delete: CardPoolRaritySettingInUsingDeleteFieldInput
+}
+
+input CardPoolRelationInput {
+  cardSettingInUsing: CardPoolCardSettingInUsingCreateFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingCreateFieldInput
+}
+
+input CardPoolSettingConnectInput {
+  createdBy: CardPoolSettingCreatedByConnectFieldInput
+}
+
+input CardPoolSettingConnectOrCreateInput {
+  createdBy: CardPoolSettingCreatedByConnectOrCreateFieldInput
+}
+
+input CardPoolSettingConnectWhere {
+  node: CardPoolSettingWhere!
+}
+
+input CardPoolSettingCreatedByAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [CardPoolSettingCreatedByAggregateInput!]
+  OR: [CardPoolSettingCreatedByAggregateInput!]
+  node: CardPoolSettingCreatedByNodeAggregationWhereInput
+}
+
+input CardPoolSettingCreatedByConnectFieldInput {
+  where: UserConnectWhere
+  connect: UserConnectInput
+}
+
+input CardPoolSettingCreatedByConnectionSort {
+  node: UserSort
+}
+
+input CardPoolSettingCreatedByConnectionWhere {
+  AND: [CardPoolSettingCreatedByConnectionWhere!]
+  OR: [CardPoolSettingCreatedByConnectionWhere!]
+  node: UserWhere
+  node_NOT: UserWhere
+}
+
+input CardPoolSettingCreatedByConnectOrCreateFieldInput {
+  where: UserConnectOrCreateWhere!
+  onCreate: CardPoolSettingCreatedByConnectOrCreateFieldInputOnCreate!
+}
+
+input CardPoolSettingCreatedByConnectOrCreateFieldInputOnCreate {
+  node: UserCreateInput!
+}
+
+input CardPoolSettingCreatedByCreateFieldInput {
+  node: UserCreateInput!
+}
+
+input CardPoolSettingCreatedByDeleteFieldInput {
+  where: CardPoolSettingCreatedByConnectionWhere
+  delete: UserDeleteInput
+}
+
+input CardPoolSettingCreatedByDisconnectFieldInput {
+  where: CardPoolSettingCreatedByConnectionWhere
+  disconnect: UserDisconnectInput
+}
+
+input CardPoolSettingCreatedByFieldInput {
+  create: CardPoolSettingCreatedByCreateFieldInput
+  connect: CardPoolSettingCreatedByConnectFieldInput
+  connectOrCreate: CardPoolSettingCreatedByConnectOrCreateFieldInput
+}
+
+input CardPoolSettingCreatedByNodeAggregationWhereInput {
+  AND: [CardPoolSettingCreatedByNodeAggregationWhereInput!]
+  OR: [CardPoolSettingCreatedByNodeAggregationWhereInput!]
+  username_EQUAL: String
+  username_AVERAGE_EQUAL: Float
+  username_LONGEST_EQUAL: Int
+  username_SHORTEST_EQUAL: Int
+  username_GT: Int
+  username_AVERAGE_GT: Float
+  username_LONGEST_GT: Int
+  username_SHORTEST_GT: Int
+  username_GTE: Int
+  username_AVERAGE_GTE: Float
+  username_LONGEST_GTE: Int
+  username_SHORTEST_GTE: Int
+  username_LT: Int
+  username_AVERAGE_LT: Float
+  username_LONGEST_LT: Int
+  username_SHORTEST_LT: Int
+  username_LTE: Int
+  username_AVERAGE_LTE: Float
+  username_LONGEST_LTE: Int
+  username_SHORTEST_LTE: Int
+  password_EQUAL: String
+  password_AVERAGE_EQUAL: Float
+  password_LONGEST_EQUAL: Int
+  password_SHORTEST_EQUAL: Int
+  password_GT: Int
+  password_AVERAGE_GT: Float
+  password_LONGEST_GT: Int
+  password_SHORTEST_GT: Int
+  password_GTE: Int
+  password_AVERAGE_GTE: Float
+  password_LONGEST_GTE: Int
+  password_SHORTEST_GTE: Int
+  password_LT: Int
+  password_AVERAGE_LT: Float
+  password_LONGEST_LT: Int
+  password_SHORTEST_LT: Int
+  password_LTE: Int
+  password_AVERAGE_LTE: Float
+  password_LONGEST_LTE: Int
+  password_SHORTEST_LTE: Int
+  email_EQUAL: String
+  email_AVERAGE_EQUAL: Float
+  email_LONGEST_EQUAL: Int
+  email_SHORTEST_EQUAL: Int
+  email_GT: Int
+  email_AVERAGE_GT: Float
+  email_LONGEST_GT: Int
+  email_SHORTEST_GT: Int
+  email_GTE: Int
+  email_AVERAGE_GTE: Float
+  email_LONGEST_GTE: Int
+  email_SHORTEST_GTE: Int
+  email_LT: Int
+  email_AVERAGE_LT: Float
+  email_LONGEST_LT: Int
+  email_SHORTEST_LT: Int
+  email_LTE: Int
+  email_AVERAGE_LTE: Float
+  email_LONGEST_LTE: Int
+  email_SHORTEST_LTE: Int
+}
+
+input CardPoolSettingCreatedByUpdateConnectionInput {
+  node: UserUpdateInput
+}
+
+input CardPoolSettingCreatedByUpdateFieldInput {
+  where: CardPoolSettingCreatedByConnectionWhere
+  update: CardPoolSettingCreatedByUpdateConnectionInput
+  connect: CardPoolSettingCreatedByConnectFieldInput
+  disconnect: CardPoolSettingCreatedByDisconnectFieldInput
+  create: CardPoolSettingCreatedByCreateFieldInput
+  delete: CardPoolSettingCreatedByDeleteFieldInput
+  connectOrCreate: CardPoolSettingCreatedByConnectOrCreateFieldInput
+}
+
+input CardPoolSettingCreateInput {
+  title: String
+  maxTimes: Int
+  algorithm: CardPoolAlgorithm!
+  createdBy: CardPoolSettingCreatedByFieldInput
+}
+
+input CardPoolSettingDeleteInput {
+  createdBy: CardPoolSettingCreatedByDeleteFieldInput
+}
+
+input CardPoolSettingDisconnectInput {
+  createdBy: CardPoolSettingCreatedByDisconnectFieldInput
+}
+
+input CardPoolSettingOptions {
+  """
+  Specify one or more CardPoolSettingSort objects to sort CardPoolSettings by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [CardPoolSettingSort]
+  limit: Int
+  offset: Int
+}
+
+input CardPoolSettingRelationInput {
+  createdBy: CardPoolSettingCreatedByCreateFieldInput
+}
+
+"""
+Fields to sort CardPoolSettings by. The order in which sorts are applied is not guaranteed when specifying many fields in one CardPoolSettingSort object.
+"""
+input CardPoolSettingSort {
+  title: SortDirection
+  maxTimes: SortDirection
+  algorithm: SortDirection
+}
+
+input CardPoolSettingUpdateInput {
+  title: String
+  maxTimes: Int
+  algorithm: CardPoolAlgorithm
+  createdBy: CardPoolSettingCreatedByUpdateFieldInput
+}
+
+input CardPoolSettingWhere {
+  OR: [CardPoolSettingWhere!]
+  AND: [CardPoolSettingWhere!]
+  title: String
+  title_NOT: String
+  title_IN: [String]
+  title_NOT_IN: [String]
+  title_CONTAINS: String
+  title_NOT_CONTAINS: String
+  title_STARTS_WITH: String
+  title_NOT_STARTS_WITH: String
+  title_ENDS_WITH: String
+  title_NOT_ENDS_WITH: String
+  maxTimes: Int
+  maxTimes_NOT: Int
+  maxTimes_IN: [Int]
+  maxTimes_NOT_IN: [Int]
+  maxTimes_LT: Int
+  maxTimes_LTE: Int
+  maxTimes_GT: Int
+  maxTimes_GTE: Int
+  algorithm: CardPoolAlgorithm
+  algorithm_NOT: CardPoolAlgorithm
+  algorithm_IN: [CardPoolAlgorithm]
+  algorithm_NOT_IN: [CardPoolAlgorithm]
+  createdBy: UserWhere
+  createdBy_NOT: UserWhere
+  createdByAggregate: CardPoolSettingCreatedByAggregateInput
+  createdByConnection: CardPoolSettingCreatedByConnectionWhere
+  createdByConnection_NOT: CardPoolSettingCreatedByConnectionWhere
+}
+
+"""
+Fields to sort CardPools by. The order in which sorts are applied is not guaranteed when specifying many fields in one CardPoolSort object.
+"""
+input CardPoolSort {
+  currentCounts: SortDirection
+  cache: SortDirection
+}
+
+input CardPoolUpdateInput {
+  currentCounts: Int
+  cache: String
+  cardSettingInUsing: CardPoolCardSettingInUsingUpdateFieldInput
+  raritySettingInUsing: CardPoolRaritySettingInUsingUpdateFieldInput
+}
+
+input CardPoolWhere {
+  OR: [CardPoolWhere!]
+  AND: [CardPoolWhere!]
+  currentCounts: Int
+  currentCounts_NOT: Int
+  currentCounts_IN: [Int]
+  currentCounts_NOT_IN: [Int]
+  currentCounts_LT: Int
+  currentCounts_LTE: Int
+  currentCounts_GT: Int
+  currentCounts_GTE: Int
+  cache: String
+  cache_NOT: String
+  cache_IN: [String]
+  cache_NOT_IN: [String]
+  cache_CONTAINS: String
+  cache_NOT_CONTAINS: String
+  cache_STARTS_WITH: String
+  cache_NOT_STARTS_WITH: String
+  cache_ENDS_WITH: String
+  cache_NOT_ENDS_WITH: String
+  cardSettingInUsing: CardPoolSettingWhere
+  cardSettingInUsing_NOT: CardPoolSettingWhere
+  cardSettingInUsingAggregate: CardPoolCardSettingInUsingAggregateInput
+  raritySettingInUsing: RaritySettingWhere
+  raritySettingInUsing_NOT: RaritySettingWhere
+  raritySettingInUsingAggregate: CardPoolRaritySettingInUsingAggregateInput
+  cardSettingInUsingConnection: CardPoolCardSettingInUsingConnectionWhere
+  cardSettingInUsingConnection_NOT: CardPoolCardSettingInUsingConnectionWhere
+  raritySettingInUsingConnection: CardPoolRaritySettingInUsingConnectionWhere
+  raritySettingInUsingConnection_NOT: CardPoolRaritySettingInUsingConnectionWhere
+}
+
+input CardRelationInput {
+  createdBy: CardCreatedByCreateFieldInput
+}
+
+"""
+Fields to sort Cards by. The order in which sorts are applied is not guaranteed when specifying many fields in one CardSort object.
+"""
+input CardSort {
+  name: SortDirection
+  description: SortDirection
+}
+
+input CardUpdateInput {
+  name: String
+  description: String
+  createdBy: CardCreatedByUpdateFieldInput
+}
+
+input CardWhere {
+  OR: [CardWhere!]
+  AND: [CardWhere!]
+  name: String
+  name_NOT: String
+  name_IN: [String]
+  name_NOT_IN: [String]
+  name_CONTAINS: String
+  name_NOT_CONTAINS: String
+  name_STARTS_WITH: String
+  name_NOT_STARTS_WITH: String
+  name_ENDS_WITH: String
+  name_NOT_ENDS_WITH: String
+  description: String
+  description_NOT: String
+  description_IN: [String]
+  description_NOT_IN: [String]
+  description_CONTAINS: String
+  description_NOT_CONTAINS: String
+  description_STARTS_WITH: String
+  description_NOT_STARTS_WITH: String
+  description_ENDS_WITH: String
+  description_NOT_ENDS_WITH: String
+  createdBy: UserWhere
+  createdBy_NOT: UserWhere
+  createdByAggregate: CardCreatedByAggregateInput
+  createdByConnection: CardCreatedByConnectionWhere
+  createdByConnection_NOT: CardCreatedByConnectionWhere
+}
+
+input RarityConnectWhere {
+  node: RarityWhere!
+}
+
+input RarityCreateInput {
+  name: String
+  probability: Float
+  sort: Int
+}
+
+input RarityOptions {
+  """
+  Specify one or more RaritySort objects to sort Rarities by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [RaritySort]
+  limit: Int
+  offset: Int
+}
+
+input RaritySettingConnectInput {
+  createdBy: RaritySettingCreatedByConnectFieldInput
+  containRarities: [RaritySettingContainRaritiesConnectFieldInput!]
+}
+
+input RaritySettingConnectOrCreateInput {
+  createdBy: RaritySettingCreatedByConnectOrCreateFieldInput
+}
+
+input RaritySettingConnectWhere {
+  node: RaritySettingWhere!
+}
+
+input RaritySettingContainRaritiesAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [RaritySettingContainRaritiesAggregateInput!]
+  OR: [RaritySettingContainRaritiesAggregateInput!]
+  node: RaritySettingContainRaritiesNodeAggregationWhereInput
+}
+
+input RaritySettingContainRaritiesConnectFieldInput {
+  where: RarityConnectWhere
+}
+
+input RaritySettingContainRaritiesConnectionSort {
+  node: RaritySort
+}
+
+input RaritySettingContainRaritiesConnectionWhere {
+  AND: [RaritySettingContainRaritiesConnectionWhere!]
+  OR: [RaritySettingContainRaritiesConnectionWhere!]
+  node: RarityWhere
+  node_NOT: RarityWhere
+}
+
+input RaritySettingContainRaritiesCreateFieldInput {
+  node: RarityCreateInput!
+}
+
+input RaritySettingContainRaritiesDeleteFieldInput {
+  where: RaritySettingContainRaritiesConnectionWhere
+}
+
+input RaritySettingContainRaritiesDisconnectFieldInput {
+  where: RaritySettingContainRaritiesConnectionWhere
+}
+
+input RaritySettingContainRaritiesFieldInput {
+  create: [RaritySettingContainRaritiesCreateFieldInput!]
+  connect: [RaritySettingContainRaritiesConnectFieldInput!]
+}
+
+input RaritySettingContainRaritiesNodeAggregationWhereInput {
+  AND: [RaritySettingContainRaritiesNodeAggregationWhereInput!]
+  OR: [RaritySettingContainRaritiesNodeAggregationWhereInput!]
+  name_EQUAL: String
+  name_AVERAGE_EQUAL: Float
+  name_LONGEST_EQUAL: Int
+  name_SHORTEST_EQUAL: Int
+  name_GT: Int
+  name_AVERAGE_GT: Float
+  name_LONGEST_GT: Int
+  name_SHORTEST_GT: Int
+  name_GTE: Int
+  name_AVERAGE_GTE: Float
+  name_LONGEST_GTE: Int
+  name_SHORTEST_GTE: Int
+  name_LT: Int
+  name_AVERAGE_LT: Float
+  name_LONGEST_LT: Int
+  name_SHORTEST_LT: Int
+  name_LTE: Int
+  name_AVERAGE_LTE: Float
+  name_LONGEST_LTE: Int
+  name_SHORTEST_LTE: Int
+  probability_EQUAL: Float
+  probability_AVERAGE_EQUAL: Float
+  probability_MIN_EQUAL: Float
+  probability_MAX_EQUAL: Float
+  probability_SUM_EQUAL: Float
+  probability_GT: Float
+  probability_AVERAGE_GT: Float
+  probability_MIN_GT: Float
+  probability_MAX_GT: Float
+  probability_SUM_GT: Float
+  probability_GTE: Float
+  probability_AVERAGE_GTE: Float
+  probability_MIN_GTE: Float
+  probability_MAX_GTE: Float
+  probability_SUM_GTE: Float
+  probability_LT: Float
+  probability_AVERAGE_LT: Float
+  probability_MIN_LT: Float
+  probability_MAX_LT: Float
+  probability_SUM_LT: Float
+  probability_LTE: Float
+  probability_AVERAGE_LTE: Float
+  probability_MIN_LTE: Float
+  probability_MAX_LTE: Float
+  probability_SUM_LTE: Float
+  sort_EQUAL: Int
+  sort_AVERAGE_EQUAL: Float
+  sort_MIN_EQUAL: Int
+  sort_MAX_EQUAL: Int
+  sort_SUM_EQUAL: Int
+  sort_GT: Int
+  sort_AVERAGE_GT: Float
+  sort_MIN_GT: Int
+  sort_MAX_GT: Int
+  sort_SUM_GT: Int
+  sort_GTE: Int
+  sort_AVERAGE_GTE: Float
+  sort_MIN_GTE: Int
+  sort_MAX_GTE: Int
+  sort_SUM_GTE: Int
+  sort_LT: Int
+  sort_AVERAGE_LT: Float
+  sort_MIN_LT: Int
+  sort_MAX_LT: Int
+  sort_SUM_LT: Int
+  sort_LTE: Int
+  sort_AVERAGE_LTE: Float
+  sort_MIN_LTE: Int
+  sort_MAX_LTE: Int
+  sort_SUM_LTE: Int
+}
+
+input RaritySettingContainRaritiesUpdateConnectionInput {
+  node: RarityUpdateInput
+}
+
+input RaritySettingContainRaritiesUpdateFieldInput {
+  where: RaritySettingContainRaritiesConnectionWhere
+  update: RaritySettingContainRaritiesUpdateConnectionInput
+  connect: [RaritySettingContainRaritiesConnectFieldInput!]
+  disconnect: [RaritySettingContainRaritiesDisconnectFieldInput!]
+  create: [RaritySettingContainRaritiesCreateFieldInput!]
+  delete: [RaritySettingContainRaritiesDeleteFieldInput!]
+}
+
+input RaritySettingCreatedByAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [RaritySettingCreatedByAggregateInput!]
+  OR: [RaritySettingCreatedByAggregateInput!]
+  node: RaritySettingCreatedByNodeAggregationWhereInput
+}
+
+input RaritySettingCreatedByConnectFieldInput {
+  where: UserConnectWhere
+  connect: UserConnectInput
+}
+
+input RaritySettingCreatedByConnectionSort {
+  node: UserSort
+}
+
+input RaritySettingCreatedByConnectionWhere {
+  AND: [RaritySettingCreatedByConnectionWhere!]
+  OR: [RaritySettingCreatedByConnectionWhere!]
+  node: UserWhere
+  node_NOT: UserWhere
+}
+
+input RaritySettingCreatedByConnectOrCreateFieldInput {
+  where: UserConnectOrCreateWhere!
+  onCreate: RaritySettingCreatedByConnectOrCreateFieldInputOnCreate!
+}
+
+input RaritySettingCreatedByConnectOrCreateFieldInputOnCreate {
+  node: UserCreateInput!
+}
+
+input RaritySettingCreatedByCreateFieldInput {
+  node: UserCreateInput!
+}
+
+input RaritySettingCreatedByDeleteFieldInput {
+  where: RaritySettingCreatedByConnectionWhere
+  delete: UserDeleteInput
+}
+
+input RaritySettingCreatedByDisconnectFieldInput {
+  where: RaritySettingCreatedByConnectionWhere
+  disconnect: UserDisconnectInput
+}
+
+input RaritySettingCreatedByFieldInput {
+  create: RaritySettingCreatedByCreateFieldInput
+  connect: RaritySettingCreatedByConnectFieldInput
+  connectOrCreate: RaritySettingCreatedByConnectOrCreateFieldInput
+}
+
+input RaritySettingCreatedByNodeAggregationWhereInput {
+  AND: [RaritySettingCreatedByNodeAggregationWhereInput!]
+  OR: [RaritySettingCreatedByNodeAggregationWhereInput!]
+  username_EQUAL: String
+  username_AVERAGE_EQUAL: Float
+  username_LONGEST_EQUAL: Int
+  username_SHORTEST_EQUAL: Int
+  username_GT: Int
+  username_AVERAGE_GT: Float
+  username_LONGEST_GT: Int
+  username_SHORTEST_GT: Int
+  username_GTE: Int
+  username_AVERAGE_GTE: Float
+  username_LONGEST_GTE: Int
+  username_SHORTEST_GTE: Int
+  username_LT: Int
+  username_AVERAGE_LT: Float
+  username_LONGEST_LT: Int
+  username_SHORTEST_LT: Int
+  username_LTE: Int
+  username_AVERAGE_LTE: Float
+  username_LONGEST_LTE: Int
+  username_SHORTEST_LTE: Int
+  password_EQUAL: String
+  password_AVERAGE_EQUAL: Float
+  password_LONGEST_EQUAL: Int
+  password_SHORTEST_EQUAL: Int
+  password_GT: Int
+  password_AVERAGE_GT: Float
+  password_LONGEST_GT: Int
+  password_SHORTEST_GT: Int
+  password_GTE: Int
+  password_AVERAGE_GTE: Float
+  password_LONGEST_GTE: Int
+  password_SHORTEST_GTE: Int
+  password_LT: Int
+  password_AVERAGE_LT: Float
+  password_LONGEST_LT: Int
+  password_SHORTEST_LT: Int
+  password_LTE: Int
+  password_AVERAGE_LTE: Float
+  password_LONGEST_LTE: Int
+  password_SHORTEST_LTE: Int
+  email_EQUAL: String
+  email_AVERAGE_EQUAL: Float
+  email_LONGEST_EQUAL: Int
+  email_SHORTEST_EQUAL: Int
+  email_GT: Int
+  email_AVERAGE_GT: Float
+  email_LONGEST_GT: Int
+  email_SHORTEST_GT: Int
+  email_GTE: Int
+  email_AVERAGE_GTE: Float
+  email_LONGEST_GTE: Int
+  email_SHORTEST_GTE: Int
+  email_LT: Int
+  email_AVERAGE_LT: Float
+  email_LONGEST_LT: Int
+  email_SHORTEST_LT: Int
+  email_LTE: Int
+  email_AVERAGE_LTE: Float
+  email_LONGEST_LTE: Int
+  email_SHORTEST_LTE: Int
+}
+
+input RaritySettingCreatedByUpdateConnectionInput {
+  node: UserUpdateInput
+}
+
+input RaritySettingCreatedByUpdateFieldInput {
+  where: RaritySettingCreatedByConnectionWhere
+  update: RaritySettingCreatedByUpdateConnectionInput
+  connect: RaritySettingCreatedByConnectFieldInput
+  disconnect: RaritySettingCreatedByDisconnectFieldInput
+  create: RaritySettingCreatedByCreateFieldInput
+  delete: RaritySettingCreatedByDeleteFieldInput
+  connectOrCreate: RaritySettingCreatedByConnectOrCreateFieldInput
+}
+
+input RaritySettingCreateInput {
+  title: String
+  createdBy: RaritySettingCreatedByFieldInput
+  containRarities: RaritySettingContainRaritiesFieldInput
+}
+
+input RaritySettingDeleteInput {
+  createdBy: RaritySettingCreatedByDeleteFieldInput
+  containRarities: [RaritySettingContainRaritiesDeleteFieldInput!]
+}
+
+input RaritySettingDisconnectInput {
+  createdBy: RaritySettingCreatedByDisconnectFieldInput
+  containRarities: [RaritySettingContainRaritiesDisconnectFieldInput!]
+}
+
+input RaritySettingOptions {
+  """
+  Specify one or more RaritySettingSort objects to sort RaritySettings by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [RaritySettingSort]
+  limit: Int
+  offset: Int
+}
+
+input RaritySettingRelationInput {
+  createdBy: RaritySettingCreatedByCreateFieldInput
+  containRarities: [RaritySettingContainRaritiesCreateFieldInput!]
+}
+
+"""
+Fields to sort RaritySettings by. The order in which sorts are applied is not guaranteed when specifying many fields in one RaritySettingSort object.
+"""
+input RaritySettingSort {
+  title: SortDirection
+  depth: SortDirection
+}
+
+input RaritySettingUpdateInput {
+  title: String
+  createdBy: RaritySettingCreatedByUpdateFieldInput
+  containRarities: [RaritySettingContainRaritiesUpdateFieldInput!]
+}
+
+input RaritySettingWhere {
+  OR: [RaritySettingWhere!]
+  AND: [RaritySettingWhere!]
+  title: String
+  title_NOT: String
+  title_IN: [String]
+  title_NOT_IN: [String]
+  title_CONTAINS: String
+  title_NOT_CONTAINS: String
+  title_STARTS_WITH: String
+  title_NOT_STARTS_WITH: String
+  title_ENDS_WITH: String
+  title_NOT_ENDS_WITH: String
+  createdBy: UserWhere
+  createdBy_NOT: UserWhere
+  createdByAggregate: RaritySettingCreatedByAggregateInput
+  containRarities: RarityWhere
+  containRarities_NOT: RarityWhere
+  containRaritiesAggregate: RaritySettingContainRaritiesAggregateInput
+  createdByConnection: RaritySettingCreatedByConnectionWhere
+  createdByConnection_NOT: RaritySettingCreatedByConnectionWhere
+  containRaritiesConnection: RaritySettingContainRaritiesConnectionWhere
+  containRaritiesConnection_NOT: RaritySettingContainRaritiesConnectionWhere
+}
+
+"""
+Fields to sort Rarities by. The order in which sorts are applied is not guaranteed when specifying many fields in one RaritySort object.
+"""
+input RaritySort {
+  name: SortDirection
+  probability: SortDirection
+  sort: SortDirection
+}
+
+input RarityUpdateInput {
+  name: String
+  probability: Float
+  sort: Int
+}
+
+input RarityWhere {
+  OR: [RarityWhere!]
+  AND: [RarityWhere!]
+  name: String
+  name_NOT: String
+  name_IN: [String]
+  name_NOT_IN: [String]
+  name_CONTAINS: String
+  name_NOT_CONTAINS: String
+  name_STARTS_WITH: String
+  name_NOT_STARTS_WITH: String
+  name_ENDS_WITH: String
+  name_NOT_ENDS_WITH: String
+  probability: Float
+  probability_NOT: Float
+  probability_IN: [Float]
+  probability_NOT_IN: [Float]
+  probability_LT: Float
+  probability_LTE: Float
+  probability_GT: Float
+  probability_GTE: Float
+  sort: Int
+  sort_NOT: Int
+  sort_IN: [Int]
+  sort_NOT_IN: [Int]
+  sort_LT: Int
+  sort_LTE: Int
+  sort_GT: Int
+  sort_GTE: Int
+}
+
+input UpdatedRecordConnectWhere {
+  node: UpdatedRecordWhere!
+}
+
+input UpdatedRecordCreateInput {
+  detail: String
+  time: DateTime
+}
+
+input UpdatedRecordOptions {
+  """
+  Specify one or more UpdatedRecordSort objects to sort UpdatedRecords by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [UpdatedRecordSort]
+  limit: Int
+  offset: Int
+}
+
+"""
+Fields to sort UpdatedRecords by. The order in which sorts are applied is not guaranteed when specifying many fields in one UpdatedRecordSort object.
+"""
+input UpdatedRecordSort {
+  detail: SortDirection
+  time: SortDirection
+}
+
+input UpdatedRecordUpdateInput {
+  detail: String
+  time: DateTime
+}
+
+input UpdatedRecordWhere {
+  OR: [UpdatedRecordWhere!]
+  AND: [UpdatedRecordWhere!]
+  detail: String
+  detail_NOT: String
+  detail_IN: [String]
+  detail_NOT_IN: [String]
+  detail_CONTAINS: String
+  detail_NOT_CONTAINS: String
+  detail_STARTS_WITH: String
+  detail_NOT_STARTS_WITH: String
+  detail_ENDS_WITH: String
+  detail_NOT_ENDS_WITH: String
+  time: DateTime
+  time_NOT: DateTime
+  time_IN: [DateTime]
+  time_NOT_IN: [DateTime]
+  time_LT: DateTime
+  time_LTE: DateTime
+  time_GT: DateTime
+  time_GTE: DateTime
+}
+
+input UserConnectInput {
+  updatedRecords: [UserUpdatedRecordsConnectFieldInput!]
+  knownUsers: [UserKnownUsersConnectFieldInput!]
+  updateHistorys: [UserUpdateHistorysConnectFieldInput!]
+}
+
+input UserConnectOrCreateInput {
+  knownUsers: [UserKnownUsersConnectOrCreateFieldInput!]
+}
+
+input UserConnectOrCreateWhere {
+  node: UserUniqueWhere!
+}
+
+input UserConnectWhere {
+  node: UserWhere!
+}
+
+input UserCreateInput {
+  username: String
+  password: String
+  email: String
+  updatedRecords: UserUpdatedRecordsFieldInput
+  knownUsers: UserKnownUsersFieldInput
+  updateHistorys: UserUpdateHistorysFieldInput
+}
+
+input UserDeleteInput {
+  updatedRecords: [UserUpdatedRecordsDeleteFieldInput!]
+  knownUsers: [UserKnownUsersDeleteFieldInput!]
+  updateHistorys: [UserUpdateHistorysDeleteFieldInput!]
+}
+
+input UserDisconnectInput {
+  updatedRecords: [UserUpdatedRecordsDisconnectFieldInput!]
+  knownUsers: [UserKnownUsersDisconnectFieldInput!]
+  updateHistorys: [UserUpdateHistorysDisconnectFieldInput!]
+}
+
+input UserKnownUsersAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [UserKnownUsersAggregateInput!]
+  OR: [UserKnownUsersAggregateInput!]
+  node: UserKnownUsersNodeAggregationWhereInput
+}
+
+input UserKnownUsersConnectFieldInput {
+  where: UserConnectWhere
+  connect: [UserConnectInput!]
+}
+
+input UserKnownUsersConnectionSort {
+  node: UserSort
+}
+
+input UserKnownUsersConnectionWhere {
+  AND: [UserKnownUsersConnectionWhere!]
+  OR: [UserKnownUsersConnectionWhere!]
+  node: UserWhere
+  node_NOT: UserWhere
+}
+
+input UserKnownUsersConnectOrCreateFieldInput {
+  where: UserConnectOrCreateWhere!
+  onCreate: UserKnownUsersConnectOrCreateFieldInputOnCreate!
+}
+
+input UserKnownUsersConnectOrCreateFieldInputOnCreate {
+  node: UserCreateInput!
+}
+
+input UserKnownUsersCreateFieldInput {
+  node: UserCreateInput!
+}
+
+input UserKnownUsersDeleteFieldInput {
+  where: UserKnownUsersConnectionWhere
+  delete: UserDeleteInput
+}
+
+input UserKnownUsersDisconnectFieldInput {
+  where: UserKnownUsersConnectionWhere
+  disconnect: UserDisconnectInput
+}
+
+input UserKnownUsersFieldInput {
+  create: [UserKnownUsersCreateFieldInput!]
+  connect: [UserKnownUsersConnectFieldInput!]
+  connectOrCreate: [UserKnownUsersConnectOrCreateFieldInput!]
+}
+
+input UserKnownUsersNodeAggregationWhereInput {
+  AND: [UserKnownUsersNodeAggregationWhereInput!]
+  OR: [UserKnownUsersNodeAggregationWhereInput!]
+  username_EQUAL: String
+  username_AVERAGE_EQUAL: Float
+  username_LONGEST_EQUAL: Int
+  username_SHORTEST_EQUAL: Int
+  username_GT: Int
+  username_AVERAGE_GT: Float
+  username_LONGEST_GT: Int
+  username_SHORTEST_GT: Int
+  username_GTE: Int
+  username_AVERAGE_GTE: Float
+  username_LONGEST_GTE: Int
+  username_SHORTEST_GTE: Int
+  username_LT: Int
+  username_AVERAGE_LT: Float
+  username_LONGEST_LT: Int
+  username_SHORTEST_LT: Int
+  username_LTE: Int
+  username_AVERAGE_LTE: Float
+  username_LONGEST_LTE: Int
+  username_SHORTEST_LTE: Int
+  password_EQUAL: String
+  password_AVERAGE_EQUAL: Float
+  password_LONGEST_EQUAL: Int
+  password_SHORTEST_EQUAL: Int
+  password_GT: Int
+  password_AVERAGE_GT: Float
+  password_LONGEST_GT: Int
+  password_SHORTEST_GT: Int
+  password_GTE: Int
+  password_AVERAGE_GTE: Float
+  password_LONGEST_GTE: Int
+  password_SHORTEST_GTE: Int
+  password_LT: Int
+  password_AVERAGE_LT: Float
+  password_LONGEST_LT: Int
+  password_SHORTEST_LT: Int
+  password_LTE: Int
+  password_AVERAGE_LTE: Float
+  password_LONGEST_LTE: Int
+  password_SHORTEST_LTE: Int
+  email_EQUAL: String
+  email_AVERAGE_EQUAL: Float
+  email_LONGEST_EQUAL: Int
+  email_SHORTEST_EQUAL: Int
+  email_GT: Int
+  email_AVERAGE_GT: Float
+  email_LONGEST_GT: Int
+  email_SHORTEST_GT: Int
+  email_GTE: Int
+  email_AVERAGE_GTE: Float
+  email_LONGEST_GTE: Int
+  email_SHORTEST_GTE: Int
+  email_LT: Int
+  email_AVERAGE_LT: Float
+  email_LONGEST_LT: Int
+  email_SHORTEST_LT: Int
+  email_LTE: Int
+  email_AVERAGE_LTE: Float
+  email_LONGEST_LTE: Int
+  email_SHORTEST_LTE: Int
+}
+
+input UserKnownUsersUpdateConnectionInput {
+  node: UserUpdateInput
+}
+
+input UserKnownUsersUpdateFieldInput {
+  where: UserKnownUsersConnectionWhere
+  update: UserKnownUsersUpdateConnectionInput
+  connect: [UserKnownUsersConnectFieldInput!]
+  disconnect: [UserKnownUsersDisconnectFieldInput!]
+  create: [UserKnownUsersCreateFieldInput!]
+  delete: [UserKnownUsersDeleteFieldInput!]
+  connectOrCreate: [UserKnownUsersConnectOrCreateFieldInput!]
+}
+
+input UserOptions {
+  """
+  Specify one or more UserSort objects to sort Users by. The sorts will be applied in the order in which they are arranged in the array.
+  """
+  sort: [UserSort]
+  limit: Int
+  offset: Int
+}
+
+input UserRelationInput {
+  updatedRecords: [UserUpdatedRecordsCreateFieldInput!]
+  knownUsers: [UserKnownUsersCreateFieldInput!]
+  updateHistorys: [UserUpdateHistorysCreateFieldInput!]
+}
+
+"""
+Fields to sort Users by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserSort object.
+"""
+input UserSort {
+  username: SortDirection
+  password: SortDirection
+  email: SortDirection
+  friendCounts: SortDirection
+}
+
+input UserUniqueWhere {
+  username: String
+  email: String
+}
+
+input UserUpdatedRecordsAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [UserUpdatedRecordsAggregateInput!]
+  OR: [UserUpdatedRecordsAggregateInput!]
+  node: UserUpdatedRecordsNodeAggregationWhereInput
+}
+
+input UserUpdatedRecordsConnectFieldInput {
+  where: UpdatedRecordConnectWhere
+}
+
+input UserUpdatedRecordsConnectionSort {
+  node: UpdatedRecordSort
+}
+
+input UserUpdatedRecordsConnectionWhere {
+  AND: [UserUpdatedRecordsConnectionWhere!]
+  OR: [UserUpdatedRecordsConnectionWhere!]
+  node: UpdatedRecordWhere
+  node_NOT: UpdatedRecordWhere
+}
+
+input UserUpdatedRecordsCreateFieldInput {
+  node: UpdatedRecordCreateInput!
+}
+
+input UserUpdatedRecordsDeleteFieldInput {
+  where: UserUpdatedRecordsConnectionWhere
+}
+
+input UserUpdatedRecordsDisconnectFieldInput {
+  where: UserUpdatedRecordsConnectionWhere
+}
+
+input UserUpdatedRecordsFieldInput {
+  create: [UserUpdatedRecordsCreateFieldInput!]
+  connect: [UserUpdatedRecordsConnectFieldInput!]
+}
+
+input UserUpdatedRecordsNodeAggregationWhereInput {
+  AND: [UserUpdatedRecordsNodeAggregationWhereInput!]
+  OR: [UserUpdatedRecordsNodeAggregationWhereInput!]
+  detail_EQUAL: String
+  detail_AVERAGE_EQUAL: Float
+  detail_LONGEST_EQUAL: Int
+  detail_SHORTEST_EQUAL: Int
+  detail_GT: Int
+  detail_AVERAGE_GT: Float
+  detail_LONGEST_GT: Int
+  detail_SHORTEST_GT: Int
+  detail_GTE: Int
+  detail_AVERAGE_GTE: Float
+  detail_LONGEST_GTE: Int
+  detail_SHORTEST_GTE: Int
+  detail_LT: Int
+  detail_AVERAGE_LT: Float
+  detail_LONGEST_LT: Int
+  detail_SHORTEST_LT: Int
+  detail_LTE: Int
+  detail_AVERAGE_LTE: Float
+  detail_LONGEST_LTE: Int
+  detail_SHORTEST_LTE: Int
+  time_EQUAL: DateTime
+  time_MIN_EQUAL: DateTime
+  time_MAX_EQUAL: DateTime
+  time_GT: DateTime
+  time_MIN_GT: DateTime
+  time_MAX_GT: DateTime
+  time_GTE: DateTime
+  time_MIN_GTE: DateTime
+  time_MAX_GTE: DateTime
+  time_LT: DateTime
+  time_MIN_LT: DateTime
+  time_MAX_LT: DateTime
+  time_LTE: DateTime
+  time_MIN_LTE: DateTime
+  time_MAX_LTE: DateTime
+}
+
+input UserUpdatedRecordsUpdateConnectionInput {
+  node: UpdatedRecordUpdateInput
+}
+
+input UserUpdatedRecordsUpdateFieldInput {
+  where: UserUpdatedRecordsConnectionWhere
+  update: UserUpdatedRecordsUpdateConnectionInput
+  connect: [UserUpdatedRecordsConnectFieldInput!]
+  disconnect: [UserUpdatedRecordsDisconnectFieldInput!]
+  create: [UserUpdatedRecordsCreateFieldInput!]
+  delete: [UserUpdatedRecordsDeleteFieldInput!]
+}
+
+input UserUpdateHistorysAggregateInput {
+  count: Int
+  count_LT: Int
+  count_LTE: Int
+  count_GT: Int
+  count_GTE: Int
+  AND: [UserUpdateHistorysAggregateInput!]
+  OR: [UserUpdateHistorysAggregateInput!]
+  node: UserUpdateHistorysNodeAggregationWhereInput
+}
+
+input UserUpdateHistorysConnectFieldInput {
+  where: UpdatedRecordConnectWhere
+}
+
+input UserUpdateHistorysConnectionSort {
+  node: UpdatedRecordSort
+}
+
+input UserUpdateHistorysConnectionWhere {
+  AND: [UserUpdateHistorysConnectionWhere!]
+  OR: [UserUpdateHistorysConnectionWhere!]
+  node: UpdatedRecordWhere
+  node_NOT: UpdatedRecordWhere
+}
+
+input UserUpdateHistorysCreateFieldInput {
+  node: UpdatedRecordCreateInput!
+}
+
+input UserUpdateHistorysDeleteFieldInput {
+  where: UserUpdateHistorysConnectionWhere
+}
+
+input UserUpdateHistorysDisconnectFieldInput {
+  where: UserUpdateHistorysConnectionWhere
+}
+
+input UserUpdateHistorysFieldInput {
+  create: [UserUpdateHistorysCreateFieldInput!]
+  connect: [UserUpdateHistorysConnectFieldInput!]
+}
+
+input UserUpdateHistorysNodeAggregationWhereInput {
+  AND: [UserUpdateHistorysNodeAggregationWhereInput!]
+  OR: [UserUpdateHistorysNodeAggregationWhereInput!]
+  detail_EQUAL: String
+  detail_AVERAGE_EQUAL: Float
+  detail_LONGEST_EQUAL: Int
+  detail_SHORTEST_EQUAL: Int
+  detail_GT: Int
+  detail_AVERAGE_GT: Float
+  detail_LONGEST_GT: Int
+  detail_SHORTEST_GT: Int
+  detail_GTE: Int
+  detail_AVERAGE_GTE: Float
+  detail_LONGEST_GTE: Int
+  detail_SHORTEST_GTE: Int
+  detail_LT: Int
+  detail_AVERAGE_LT: Float
+  detail_LONGEST_LT: Int
+  detail_SHORTEST_LT: Int
+  detail_LTE: Int
+  detail_AVERAGE_LTE: Float
+  detail_LONGEST_LTE: Int
+  detail_SHORTEST_LTE: Int
+  time_EQUAL: DateTime
+  time_MIN_EQUAL: DateTime
+  time_MAX_EQUAL: DateTime
+  time_GT: DateTime
+  time_MIN_GT: DateTime
+  time_MAX_GT: DateTime
+  time_GTE: DateTime
+  time_MIN_GTE: DateTime
+  time_MAX_GTE: DateTime
+  time_LT: DateTime
+  time_MIN_LT: DateTime
+  time_MAX_LT: DateTime
+  time_LTE: DateTime
+  time_MIN_LTE: DateTime
+  time_MAX_LTE: DateTime
+}
+
+input UserUpdateHistorysUpdateConnectionInput {
+  node: UpdatedRecordUpdateInput
+}
+
+input UserUpdateHistorysUpdateFieldInput {
+  where: UserUpdateHistorysConnectionWhere
+  update: UserUpdateHistorysUpdateConnectionInput
+  connect: [UserUpdateHistorysConnectFieldInput!]
+  disconnect: [UserUpdateHistorysDisconnectFieldInput!]
+  create: [UserUpdateHistorysCreateFieldInput!]
+  delete: [UserUpdateHistorysDeleteFieldInput!]
+}
+
+input UserUpdateInput {
+  username: String
+  password: String
+  email: String
+  updatedRecords: [UserUpdatedRecordsUpdateFieldInput!]
+  knownUsers: [UserKnownUsersUpdateFieldInput!]
+  updateHistorys: [UserUpdateHistorysUpdateFieldInput!]
+}
+
+input UserWhere {
+  OR: [UserWhere!]
+  AND: [UserWhere!]
+  username: String
+  username_NOT: String
+  username_IN: [String]
+  username_NOT_IN: [String]
+  username_CONTAINS: String
+  username_NOT_CONTAINS: String
+  username_STARTS_WITH: String
+  username_NOT_STARTS_WITH: String
+  username_ENDS_WITH: String
+  username_NOT_ENDS_WITH: String
+  password: String
+  password_NOT: String
+  password_IN: [String]
+  password_NOT_IN: [String]
+  password_CONTAINS: String
+  password_NOT_CONTAINS: String
+  password_STARTS_WITH: String
+  password_NOT_STARTS_WITH: String
+  password_ENDS_WITH: String
+  password_NOT_ENDS_WITH: String
+  email: String
+  email_NOT: String
+  email_IN: [String]
+  email_NOT_IN: [String]
+  email_CONTAINS: String
+  email_NOT_CONTAINS: String
+  email_STARTS_WITH: String
+  email_NOT_STARTS_WITH: String
+  email_ENDS_WITH: String
+  email_NOT_ENDS_WITH: String
+  updatedRecords: UpdatedRecordWhere
+  updatedRecords_NOT: UpdatedRecordWhere
+  updatedRecordsAggregate: UserUpdatedRecordsAggregateInput
+  knownUsers: UserWhere
+  knownUsers_NOT: UserWhere
+  knownUsersAggregate: UserKnownUsersAggregateInput
+  updateHistorys: UpdatedRecordWhere
+  updateHistorys_NOT: UpdatedRecordWhere
+  updateHistorysAggregate: UserUpdateHistorysAggregateInput
+  updatedRecordsConnection: UserUpdatedRecordsConnectionWhere
+  updatedRecordsConnection_NOT: UserUpdatedRecordsConnectionWhere
+  knownUsersConnection: UserKnownUsersConnectionWhere
+  knownUsersConnection_NOT: UserKnownUsersConnectionWhere
+  updateHistorysConnection: UserUpdateHistorysConnectionWhere
+  updateHistorysConnection_NOT: UserUpdateHistorysConnectionWhere
+}

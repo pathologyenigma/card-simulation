@@ -1,0 +1,19 @@
+mutation Resgister($username: String, $password: String, $email: String) {
+  createUsers(input: [{
+    username: $username,
+    password: $password,
+    email: $email
+  }]) {
+    info {
+      bookmark
+      nodesCreated
+      relationshipsCreated
+    }
+    users {
+      username
+      password
+      email
+      friendCounts
+    }
+  }
+}
